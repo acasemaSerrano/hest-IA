@@ -134,8 +134,9 @@ async def on_message(message: discord.Message) -> None:
         if len(message.mentions) == 1 and message.mentions[0] == bot.user:  # Verificar que solo se menciona al bot
             content = message.content.replace(bot.user.mention, "").strip()
             if content:  # Si hay contenido en el mensaje después de la mención
-                answer = await get_answer(content)
-                await message.channel.send(f"{message.author.mention}: {answer}")
+                answer = await get_answer(content, message.author.nick)
+                answer = answer.replace(message.author.nick, message.author.mention)
+                await message.channel.send(answer)
         return
 
     await bot.process_commands(message)

@@ -162,4 +162,3 @@ config.json
 *.pem
 OpenAI.prompt.txt
 .vscode/
-OpenAI.prompt.txt

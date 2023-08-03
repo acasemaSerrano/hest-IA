@@ -27,7 +27,7 @@ reset()
 DateTimeUltimoMessage = datetime.now()
 
 
-async def get_answer(question):
+async def get_answer(question, nick):
     global DateTimeUltimoMessage
     global MetaMessages
 
@@ -37,7 +37,7 @@ async def get_answer(question):
     
     DateTimeUltimoMessage = datetime.now()
 
-    MetaMessages.append({"role": "user", "content": question})
+    MetaMessages.append({"role": "user", "content": nick + ": " + question})
 
     request = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
