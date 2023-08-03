@@ -1,5 +1,3 @@
-import platform
-
 import aiohttp
 import discord
 from discord.ext import commands
@@ -19,7 +17,8 @@ class General(commands.Cog, name="general"):
         embed = discord.Embed(
             title="Help", description="List of available commands:", color=0x9C84EF)
         for i in self.bot.cogs:
-            cog = self.bot.get_cog(i.lower())
+            self.bot.logger.info(f"help '{i}'")
+            cog = self.bot.get_cog(i)
             commands = cog.get_commands()
             data = []
             for command in commands:
@@ -30,90 +29,6 @@ class General(commands.Cog, name="general"):
                             value=f'```{help_text}```', inline=False)
         await context.send(embed=embed)
 
-    @commands.hybrid_command(
-        name="botinfo",
-        description="Obtenga información útil (o no) sobre el bot.",
-    )
-    async def botinfo(self, context: Context) -> None:
-        embed = discord.Embed(
-            description="Hola soy Hest-IA",
-            color=0x9C84EF
-        )
-        embed.set_author(
-            name="Desarrollador acasema"
-        )
-        embed.add_field(
-            name="Creador:",
-            value="acasema",
-            inline=True
-        )
-        embed.add_field(
-            name="Python Version:",
-            value=f"{platform.python_version()}",
-            inline=True
-        )
-        embed.add_field(
-            name="Prefix:",
-            value=f"/ (Barra) o {self.bot.config['prefix']} para comandos normales",
-            inline=False
-        )
-        embed.set_footer(
-            text=f"Requested by {context.author}"
-        )
-        await context.send(embed=embed)
-
-    @commands.hybrid_command(
-        name="serverinfo",
-        description="Obtenga información útil (o no) sobre el servidor.",
-    )
-    async def serverinfo(self, context: Context) -> None:
-        roles = [role.name for role in context.guild.roles]
-        if len(roles) > 50:
-            roles = roles[:50]
-            roles.append(f">>>> Displaying[50/{len(roles)}] Roles")
-        roles = ", ".join(roles)
-
-        embed = discord.Embed(
-            title="**Server Name:**",
-            description=f"{context.guild}",
-            color=0x9C84EF
-        )
-        if context.guild.icon is not None:
-            embed.set_thumbnail(
-                url=context.guild.icon.url
-            )
-        embed.add_field(
-            name="Server ID",
-            value=context.guild.id
-        )
-        embed.add_field(
-            name="Member Count",
-            value=context.guild.member_count
-        )
-        embed.add_field(
-            name="Text/Voice Channels",
-            value=f"{len(context.guild.channels)}"
-        )
-        embed.add_field(
-            name=f"Roles ({len(context.guild.roles)})",
-            value=roles
-        )
-        embed.set_footer(
-            text=f"Created at: {context.guild.created_at}"
-        )
-        await context.send(embed=embed)
-
-    @commands.hybrid_command(
-        name="ping",
-        description="Compruebe si el bot está vivo.",
-    )
-    async def ping(self, context: Context) -> None:
-        embed = discord.Embed(
-            title="🏓 Pong!",
-            description=f"The bot latency is {round(self.bot.latency * 1000)}ms.",
-            color=0x9C84EF
-        )
-        await context.send(embed=embed)
 
     @commands.hybrid_command(
         name="bitcoin",

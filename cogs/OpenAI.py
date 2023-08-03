@@ -16,12 +16,12 @@ class OpenAI(commands.Cog, name="OpenAI"):
         with open(f"{os.path.realpath(os.path.dirname(__file__))}/../OpenAI.prompt.txt", encoding="utf-8") as file:
 
             embed = discord.Embed(
-                description="Pront usado para GPT",
+                description="Prompt usado para GPT",
                 color=0x9C84EF
             )
 
             embed = embed.add_field(
-                name="Pront:",
+                name="Prompt:",
                 value=file.read(),
                 inline=True
             )

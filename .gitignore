@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 config.json
 *.pem
+OpenAI.prompt.txt
+.vscode/
+OpenAI.prompt.txt
