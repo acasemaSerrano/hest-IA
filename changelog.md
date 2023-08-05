@@ -1,5 +1,13 @@
 # Hest-IA
 
+## [1.4.0] - 2023-08-XX
+- Se añadio el Cooldown dinamico
+- Se añadio el sistemas de funciones de chatGPT
+- Fuciones nuevas
+  - Weather
+    - get: para el tiempo actual y para la hora local
+    - getForecast: para las previsiones de mañana a desntro de 10 dias 
+
 ## [1.3.0] - 2023-08-04
 - Se añadio la forma de que GPT diferencie entre usuarios.
 

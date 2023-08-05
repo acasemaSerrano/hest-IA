@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime, timedelta
+from funtions.Weather import InterpreteWeather, DefinicionWeather
 
 import openai
 
@@ -24,28 +25,59 @@ def reset():
 
 reset()
 
-DateTimeUltimoMessage = datetime.now()
+DTLimiteDinamico = datetime.now()
 
 
-async def get_answer(question, nick):
-    global DateTimeUltimoMessage
+async def get_answer(question, nick, nombre = ""):
+    global DTLimiteDinamico
     global MetaMessages
+    global HestiaThinking
 
-    tmp = DateTimeUltimoMessage + timedelta(minutes=1)
+## config["chatGPT"]["msgErrorAPI"]
+
+    tmp = DTLimiteDinamico + timedelta(minutes=config["chatGPT"]["TCEstatico"])
+    
     if tmp < datetime.now():
         reset()
-    
-    DateTimeUltimoMessage = datetime.now()
+    if nombre == "":
+        MetaMessages.append({"role": "user", "content": nick + ": " + question})
+    else:
+        MetaMessages.append({"role": "function", "content": question, "name": nombre})
 
-    MetaMessages.append({"role": "user", "content": nick + ": " + question})
 
     request = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=MetaMessages
+        model="gpt-3.5-turbo-0613",
+        messages=MetaMessages,
+        functions=GetFunction(),
+        function_call="auto"
     )
-    output = request['choices'][0]['message']['content']
-    MetaMessages.append({"role": "assistant", "content": output})
-    return output
+    
+    message = request["choices"][0]["message"]
+
+    print(request)
+    if message.get("function_call"):
+        return await get_answer(json.dumps(InterpreteDeFunciones(message["function_call"])), nick, message["function_call"]["name"])
+
+    MetaMessages.append({"role": "assistant", "content": message['content']})
+    
+    DTLimiteDinamico = datetime.now() + timedelta(seconds=config["chatGPT"]["TCDinamico"]) * request["usage"]["completion_tokens"]
+    
+
+    return message['content']
 
 
+def GetFunction():
+    obj = []
 
+    obj.extend(DefinicionWeather())
+
+
+    return obj
+        
+
+def InterpreteDeFunciones(function):
+    value = function["name"].split("-")[0]
+    if value == "Weather":
+        return InterpreteWeather(function)
+    else:
+        return "No Se pudo hacer"
