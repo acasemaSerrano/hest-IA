@@ -1,6 +1,9 @@
 # Hest-IA
 
-## [1.4.0] - 2023-08-XX
+## [1.4.1] - 2023-08-06
+- Se corrigiendo los fallos de chat gpt.
+
+## [1.4.0] - 2023-08-04
 - Se añadio el Cooldown dinamico
 - Se añadio el sistemas de funciones de chatGPT
 - Fuciones nuevas

@@ -38,8 +38,6 @@ def getForecast(city, day):
     else:
         print(f"Oops, algo salió mal al llamar al API del clima. Codigo fue: {response.status_code}")
 
-print(getForecast("Málaga", 1))
-
 def InterpreteWeather(info):
     value = info["name"].split("-")[1]
     argumentos = json.loads(info["arguments"])
