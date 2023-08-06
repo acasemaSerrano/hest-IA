@@ -12,7 +12,6 @@ openai.api_key = config["OpenAI_key"]
 file_path = os.path.join(os.path.realpath(
     os.path.dirname(__file__)), 'OpenAI.prompt.txt')
 
-
 MetaMessages = []
 
 def reset():
