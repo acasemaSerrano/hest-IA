@@ -1,5 +1,8 @@
 # Hest-IA
 
+## [1.4.2] - 2023-08-07
+- Se corigio los el error al enbiar un mensage de mas de 2k de caracteres
+
 ## [1.4.1] - 2023-08-06
 - Se corrigiendo los fallos de chat gpt.
 

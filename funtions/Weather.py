@@ -16,6 +16,11 @@ def get(city):
         result["temperatura"] = str(response.json()["current"]["temp_c"]) + " grados celsius"
         result["condicion"] = response.json()["current"]["condition"]["text"]
         result["HoraLocal"] = response.json()["location"]["localtime"]
+        '''
+        [current]['wind_dir'] = 'E'
+        [current]['wind_mph'] = 8.1 (pasarlo a km/h)
+        [current]['feelslike_c'] = 27.3
+        '''
         return result
         #return response.json()
     else:

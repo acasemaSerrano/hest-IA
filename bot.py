@@ -136,11 +136,23 @@ async def on_message(message: discord.Message) -> None:
             if content:  # Si hay contenido en el mensaje después de la mención
                 answer = await get_answer(content, message.author.nick)
                 answer = answer.replace(message.author.nick, message.author.mention)
-                await message.channel.send(answer)
+
+
+                arrayAnswer = dividir_string_en_partes(answer)
+                for fragment in arrayAnswer:
+                    await message.channel.send(fragment)
         return
 
     await bot.process_commands(message)
 
+def dividir_string_en_partes(texto, max_caracteres=2000):
+    partes = []
+
+    for i in range(0, len(texto), max_caracteres):
+        parte = texto[i:i + max_caracteres]
+        partes.append(parte)
+
+    return partes
 
 @bot.event
 async def on_command_completion(context: Context) -> None:
